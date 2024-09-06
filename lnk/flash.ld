@@ -1,10 +1,9 @@
 SECTIONS {
     . = ORIGIN(FLASH);
-
     .text : {
         KEEP(*(.stack))
-        KEEP(*(.vector))
-        KEEP(*(.vector*))
+        KEEP(*(.vectors))
+        KEEP(*(.vectors*))
         KEEP(*(.text))
         . = ALIGN(4);
         *(.text*)
@@ -12,23 +11,23 @@ SECTIONS {
         KEEP(*(.rodata))
         *(.rodata*)
         . = ALIGN(4);
-    } > FLASH
+    } >FLASH
 
     .preinit_array ALIGN(4): {
         __preinit_array_start = .;
         KEEP(*(.preinit_array))
         __preinit_array_end = .;
-    } > FLASH
+    } >FLASH
 
     .init_array ALIGN(4): {
         __init_array_start = .;
         KEEP(*(.init_array))
         __init_array_end = .;
-    } > FLASH
+    } >FLASH
 
     .fini_array ALIGN(4): {
         __fini_array_start = .;
         KEEP(*(.fini_array))
         __fini_array_end = .;
-    } > FLASH
+    } >FLASH
 }

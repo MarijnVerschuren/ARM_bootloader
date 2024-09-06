@@ -1,36 +1,66 @@
-cmake_minimum_required(VERSION 3.27.8)
+cmake_minimum_required(VERSION 3.0)
 
 # project name
-project(STM32_bootloader)
-
-# select linker script
-set(LINKER_SCRIPT "lnk/bootloader.ld")
+project(ARM_bootloader)
 
 # toolchain
-set(CMAKE_TOOLCHAIN_FILE "cmake/arm-none-eabi.cmake")
+include("cmake/arm-none-eabi.cmake")
+
+# select linker script
+set(LINKER_SCRIPT "lnk/STM32F412.ld")
+
+# define CPU OPTIONS
+set(CPU_OPTIONS -mthumb -mcpu=cortex-m4)
 
 # optimizations (-O0 -O1 -O2 -O3 -Os -Ofast -Og -flto)
 set(CMAKE_C_FLAGS_DEBUG "-Og -g -DDEBUG")
+set(CMAKE_CXX_FLAGS_DEBUG "-Og -g")
 set(CMAKE_C_FLAGS_RELEASE "-Os -flto")
+set(CMAKE_CXX_FLAGS_RELEASE "-Os -flto")
 
-include("cmake/settings.cmake")
+add_compile_options(
+        ${CPU_OPTIONS}
+        $<$<COMPILE_LANGUAGE:C>:-std=c11>
+        $<$<COMPILE_LANGUAGE:CXX>:-std=c++17>
+        $<$<COMPILE_LANGUAGE:CXX>:-fms-extensions>
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-exceptions>
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-rtti>
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-use-cxa-atexit>
+        $<$<COMPILE_LANGUAGE:CXX>:-fno-threadsafe-statics>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wold-style-cast>
+        $<$<COMPILE_LANGUAGE:CXX>:-Wsuggest-override>
+        -fstrict-volatile-bitfields
+        -ffunction-sections
+
+#        -Werror
+#        -Wall
+#        -Wextra
+        -Wcast-align
+        -Wconversion
+        -Wsign-conversion
+        -Wshadow
+        -Wlogical-op
+        -Wsuggest-final-types
+        -Wsuggest-final-methods
+        -pedantic
+)
 
 include_directories(
-    ${CMAKE_SOURCE_DIR}
+        "inc/"
 )
 
 link_directories(
-    ${CMAKE_SOURCE_DIR}
+        ${CMAKE_SOURCE_DIR}
 )
 
-# sources
+# list of modules to build final firmware
 add_executable(${PROJECT_NAME}
-    src/vector.asm
-    src/handlers.asm
-    src/main.c
+        src/main.c
+        src/startup/startup.cpp
+        src/startup/stack.cpp
+        src/startup/handlers_cm.cpp
 )
 
-# link
 target_link_libraries(${PROJECT_NAME}
         ${CPU_OPTIONS}
         -T${LINKER_SCRIPT}
