@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.0)
 
 # project name
-project(ARM_bootloader)
+project(ARM_bootloader C ASM)
 
 # toolchain
 include("cmake/arm-none-eabi.cmake")
@@ -55,10 +55,11 @@ link_directories(
 
 # list of modules to build final firmware
 add_executable(${PROJECT_NAME}
+        src/vector.s
+        src/init_array.s
+        src/startup.s
         src/main.c
-        src/startup/startup.cpp
         src/startup/stack.cpp
-        src/startup/handlers_cm.cpp
 )
 
 target_link_libraries(${PROJECT_NAME}

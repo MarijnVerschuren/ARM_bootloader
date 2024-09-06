@@ -1,26 +1,26 @@
 SECTIONS {
-    __stacktop = ORIGIN(SRAM) + LENGTH(SRAM);
-    __data_load = LOADADDR(.data);
+    _stack_end = ORIGIN(SRAM) + LENGTH(SRAM);
+    _data_load = LOADADDR(.data);
     . = ORIGIN(SRAM);
 
     .data ALIGN(4) : {
-        __data_start = .;
+        _data_start = .;
         *(.data)
         *(.data*)
         . = ALIGN(4);
-        __data_end = .;
+        _data_end = .;
     } >SRAM AT >FLASH
 
     .bss ALIGN(4) (NOLOAD) : {
-        __bss_start = .;
+        _bss_start = .;
         *(.bss)
         *(.bss*)
         . = ALIGN(4);
-        __bss_end = .;
+        _bss_end = .;
         *(.noinit)
         *(.noinit*)
     } >SRAM
 
     . = ALIGN(4);
-    __heap_start = .;
+    _heap_start = .;
 }
