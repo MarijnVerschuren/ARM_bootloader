@@ -4,7 +4,7 @@ cmake_minimum_required(VERSION 3.0)
 project(ARM_bootloader C ASM)
 
 # toolchain
-include("cmake/arm-none-eabi.cmake")
+set(CMAKE_TOOLCHAIN_FILE "cmake/arm-none-eabi.cmake")
 
 # select linker script
 set(LINKER_SCRIPT "lnk/STM32F412.ld")
@@ -56,10 +56,10 @@ link_directories(
 # list of modules to build final firmware
 add_executable(${PROJECT_NAME}
         src/vector.s
-        src/init_array.s
         src/startup.s
+        src/init_array.s
         src/main.c
-        src/startup/stack.cpp
+        src/test.c
 )
 
 target_link_libraries(${PROJECT_NAME}

@@ -19,6 +19,9 @@
 .type reset_handler, %function
 reset_handler:
 	ldr sp, =_stack_end				// set stack pointer
+
+	bl sys_init
+	b test
 	
 	// copy_data
 	ldr r0, =_data_load				// src
@@ -46,7 +49,8 @@ zero_bss:
 zero_bss_condition:
 	cmp r0, r1						// compare with end
 	bcc zero_bss					// branch if dst < end
-	
+
+test:
 	//bl init_array					// call init_array
 	bl main_app						// call main
 	//bl fini_array					// call fini_array

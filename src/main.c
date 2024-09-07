@@ -1,10 +1,6 @@
 #include "types.h"
+#include "periph.h"
 
-
-
-#define RCC 0x40023800
-#define GPIOA 0x40020000
-#define GPIOC 0x40020800
 
 static volatile uint32_t* RCC_AHB1ENR =	(uint32_t*)(RCC + 0x30);
 static volatile uint32_t* GPIOC_MODER =	(uint32_t*)(GPIOC);
