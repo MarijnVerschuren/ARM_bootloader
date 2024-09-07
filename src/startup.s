@@ -1,6 +1,8 @@
 .syntax unified
 .thumb
 
+.global reset_handler
+
 // memory layout constants
 .section .data
 .word _data_load
@@ -16,7 +18,7 @@
 .weak reset_handler
 .type reset_handler, %function
 reset_handler:
-	ldr sp, =_stack_end
+	ldr sp, =_stack_end				// set stack pointer
 	
 	// copy_data
 	ldr r0, =_data_load				// src
@@ -45,42 +47,10 @@ zero_bss_condition:
 	cmp r0, r1						// compare with end
 	bcc zero_bss					// branch if dst < end
 	
-	// pre_init_array
-	ldr r1, =_pre_init_array_start	// src
-	ldr r2, =_pre_init_array_end	// end
-	b pre_init_array_condition		// start pre_init_array loop 
-pre_init_array:
-	bl [r1]							// call pre_init function
-	adds r1, r1, #4					// src += 4
-pre_init_array_condition:
-	cmp r1, r2						// compare with end
-	bcc pre_init_array				// branch if src < end
-	
-	// init_array
-	ldr r1, =_init_array_start		// src
-	ldr r2, =_init_array_end		// end
-	b init_array_condition			// start init_array loop
-init_array:
-	bl [r1]							// call init function
-	adds r1, r1, #4					// src += 4
-init_array_condition:
-	cmp r1, r2						// compare with end
-	bcc init_array					// branch if src < end
+	//bl init_array					// call init_array
+	bl main_app						// call main
+	//bl fini_array					// call fini_array
 
-	// call main
-	bl main_app
-	
-	// fini_array
-	ldr r1, =_fini_array_start		// src
-	ldr r2, =_fini_array_end		// end
-	b fini_array_condition			// start fini_array loop
-fini_array:
-	bl [r1]							// call fini function
-	adds r1, r1, #4					// src += 4
-fini_array_condition:
-	cmp r1, r2						// compare with end
-	bcc	fini_array					// branch if src < end
-	
-	bx lr
+	bx lr							// return
 .size reset_handler, .-reset_handler
 
