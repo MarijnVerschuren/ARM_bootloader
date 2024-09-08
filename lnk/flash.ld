@@ -22,6 +22,7 @@ SECTIONS {
 		. = ALIGN(4);
 	} > FLASH
 
+/*
 	.pre_init_array ALIGN(4): {
 		_pre_init_array_start = .;
 		KEEP(*(.preinit_array))
@@ -39,4 +40,5 @@ SECTIONS {
 		KEEP(*(.fini_array))
 		_fini_array_end = .;
 	} > FLASH
+*/
 }

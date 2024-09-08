@@ -2,9 +2,10 @@
 .thumb
 
 .global IVT
+
+
 .section .vector, "a", %progbits
 .type IVT, %object
-
 IVT:
 .word _stack_end
 .word reset_handler
@@ -21,16 +22,17 @@ IVT:
 .word debug_handler
 .word 0
 .word pending_SV_handler
-.word systick_handler
+.word sys_tick_handler
 // TODO: more interrupts
-
 
 
 // default handler
 .section .text.default_handler, "ax", %progbits
 default_handler:
+	bkpt #1
 	b default_handler
 .size default_handler, .-default_handler
+
 
 // weak definitions
 .weak NMI_handler
@@ -49,6 +51,6 @@ default_handler:
 .thumb_set debug_handler,		default_handler
 .weak pending_SV_handler
 .thumb_set pending_SV_handler,	default_handler
-.weak systick_handler
-.thumb_set systick_handler,		default_handler
+.weak sys_tick_handler
+.thumb_set sys_tick_handler,	default_handler
 

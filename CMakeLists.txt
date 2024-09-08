@@ -57,10 +57,8 @@ link_directories(
 add_executable(${PROJECT_NAME}
         src/vector.s
         src/startup.s
-        src/init_array.s
         src/sys.s
         src/main.c
-        src/test.c
 )
 
 target_link_libraries(${PROJECT_NAME}

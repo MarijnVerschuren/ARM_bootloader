@@ -1,22 +1,35 @@
 .syntax unified
 .thumb
 
-.global systick_handler
-.global NMI_handler
-.global hard_fault_handler
+.include "periph.h"
+
+.global sys_reset
+.global sys_tick_handler
+.global sys_init
 
 
-.section .text.systick_handler
-.type systick_handler, %function
-systick_handler:
-	bkpt #1
+// sys_reset
+.section .text.sys_reset
+.type sys_reset, %function
+sys_reset:
+	// TODO
 	bx lr
-.size systick_handler, .-systick_handler
+.size sys_reset, .-sys_reset
 
 
-.section .text.hard_fault_handler
-.type hard_fault_handler, %function
-hard_fault_handler:  // TODO: why is hard_fault triggered on BCC instruction
-	bkpt #1
+// sys_tick_handler
+.section .text.sys_tick_handler
+.type sys_tick_handler, %function
+sys_tick_handler:
+	// TODO
 	bx lr
-.size hard_fault_handler, .-hard_fault_handler
+.size sys_tick_handler, .-sys_tick_handler
+
+
+// sys_init
+.section .text.sys_init
+.type sys_init, %function
+sys_init:
+	// TODO
+	bx lr
+.size sys_init, .-sys_init

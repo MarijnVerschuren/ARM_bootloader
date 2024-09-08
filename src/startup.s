@@ -3,6 +3,7 @@
 
 .global reset_handler
 
+
 // memory layout constants
 .section .data
 .word _data_load
@@ -13,14 +14,13 @@
 .word _heap_start
 
 
-// reset handler
+// reset_handler
 .section .text.reset_handler
 .type reset_handler, %function
 reset_handler:
 	ldr sp, =_stack_end				// set stack pointer
+	bl sys_reset					// reset system state
 
-	bl sys_init
-	
 	// copy_data
 	ldr r0, =_data_load				// src
 	ldr r1, =_data_start			// dst
@@ -48,11 +48,7 @@ zero_bss_condition:
 	cmp r0, r1						// compare with end
 	bcc zero_bss					// branch if dst < end
 
-test:
-	//bl init_array					// call init_array
-	bl main_app						// call main
-	//bl fini_array					// call fini_array
-
+	bl main							// call main
 	bx lr							// return
 .size reset_handler, .-reset_handler
 
