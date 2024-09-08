@@ -15,13 +15,11 @@
 
 // reset handler
 .section .text.reset_handler
-.weak reset_handler
 .type reset_handler, %function
 reset_handler:
 	ldr sp, =_stack_end				// set stack pointer
 
 	bl sys_init
-	b test
 	
 	// copy_data
 	ldr r0, =_data_load				// src
@@ -34,10 +32,10 @@ copy_data:
 	str r4, [r1, r3]				// store to	dst+idx
 	adds r3, r3, #4					// idx += 4
 copy_data_condition:
-	adds r4, r0, r3					// src+idx
+	adds r4, r1, r3					// dst+idx
 	cmp r4, r2						// compare with end
 	bcc copy_data					// branch if r4 < r2
-	
+
 	// zero_bss
 	ldr r0, =_bss_start				// dst
 	ldr r1, =_bss_end				// end

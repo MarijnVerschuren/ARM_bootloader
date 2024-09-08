@@ -21,7 +21,7 @@ IVT:
 .word debug_handler
 .word 0
 .word pending_SV_handler
-.word sys_tick_handler
+.word systick_handler
 // TODO: more interrupts
 
 
@@ -49,6 +49,6 @@ default_handler:
 .thumb_set debug_handler,		default_handler
 .weak pending_SV_handler
 .thumb_set pending_SV_handler,	default_handler
-.weak sys_tick_handler
-.thumb_set sys_tick_handler,	default_handler
+.weak systick_handler
+.thumb_set systick_handler,		default_handler
 
