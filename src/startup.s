@@ -18,8 +18,8 @@
 .section .text.reset_handler
 .type reset_handler, %function
 reset_handler:
-	ldr sp, =_stack_end				// set stack pointer
-	bl sys_reset					// reset system state
+	ldr r0, =_stack_end				// set stack pointer
+	ldr sp, r0						// TODO: this is for cortex_M0+ compatibility
 
 	// copy_data
 	ldr r0, =_data_load				// src

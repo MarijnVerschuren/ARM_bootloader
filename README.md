@@ -2,7 +2,8 @@
 *ARM bootloader for bare metal embedded projects* <br>
 This project serves as a base for other bare metal projects
 #
->## Init for CLion
->Clone this project and configure the CMake config as shown in the image <br>
->![Drag Racing](doc/config.png) <br>
->The project includes the necessary run configs, including an Open-OCD debugging option
+>## Setup
+>1. open the project in clion
+>2. configure the ARM toolchain<br>![](assets/toolchain.png)
+>3. configure the run configuration<br>![](assets/config.png)
+><br>-D CMAKE_TOOLCHAIN_FILE=cmake/arm-none-eabi.cmake

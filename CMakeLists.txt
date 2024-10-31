@@ -7,7 +7,7 @@ project(ARM_bootloader C ASM)
 set(CMAKE_TOOLCHAIN_FILE "cmake/arm-none-eabi.cmake")
 
 # select linker script
-set(LINKER_SCRIPT "lnk/STM32F412.ld")
+set(LINKER_SCRIPT "lnk/STM32x.ld")
 
 # define CPU OPTIONS
 set(CPU_OPTIONS -mthumb -mcpu=cortex-m4)
@@ -57,7 +57,6 @@ link_directories(
 add_executable(${PROJECT_NAME}
         src/vector.s
         src/startup.s
-        src/sys.s
         src/main.c
 )
 
